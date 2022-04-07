@@ -24,5 +24,15 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+  server:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Start Selenoid Server
+  # You may pin to the exact commit or the version.
+  # uses: Xotabu4/selenoid-github-action@5c643de195faeead3c7796ffb3ed5135e5f595bf
+      uses: Xotabu4/selenoid-github-action@v2
+  test:
+    runs-on: ubuntu-latest
+    steps:
     - name: Junit tests
       run: mvn test
