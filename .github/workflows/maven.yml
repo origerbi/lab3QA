@@ -35,4 +35,6 @@ jobs:
             selenoid-start-arguments: --browsers 'chrome' --last-versions 1
 
       - name: Junit tests
-        run: mvn -Dtest=my_first test
+        run:  | 
+          chmod +x ./chromedriver.exe
+          mvn -Dtest=my_first test
