@@ -35,6 +35,7 @@ jobs:
           && sudo mv chromedriver /usr/local/bin/chromedriver \
           && sudo chmod +x /usr/local/bin/chromedriver \
           && chromedriver --version
+          && ls
       - name: Start Selenoid Server
         uses: Xotabu4/selenoid-github-action@v2
         with:
