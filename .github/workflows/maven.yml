@@ -22,4 +22,4 @@ jobs:
       - name: Build with Maven
         run: mvn verify --file pom.xml
       - name: Junit tests
-        run: mvn test
+        run: mvn -Dtest=my_first test
