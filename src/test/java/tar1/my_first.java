@@ -31,7 +31,7 @@ public class my_first {
     JavascriptExecutor js;
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver","/usr/local/bin/chromedriver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver","C:\\Program Files\\chromedriver\\chromedriver.exe");
         driver = new ChromeDriver();
         js = (JavascriptExecutor) driver;
         vars = new HashMap<String, Object>();
