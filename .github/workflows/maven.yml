@@ -21,5 +21,10 @@ jobs:
                             ./scripts/InstallChrome.sh 
       - name: Build with Maven
         run: mvn verify --file pom.xml
+      - name: Start Selenoid Server
+        uses: Xotabu4/selenoid-github-action@v2
+        with:
+          selenoid-start-arguments: --browsers 'chrome' --last-versions 1
+
       - name: Junit tests
         run: mvn -Dtest=my_first test
