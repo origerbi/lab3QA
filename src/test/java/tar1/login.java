@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class my_first {
+public class login {
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
