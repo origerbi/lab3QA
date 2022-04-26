@@ -1,12 +1,7 @@
 package tar1;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,7 +13,6 @@ import org.testng.annotations.Test;
 
 public class CheckOut {
     private WebDriver driver;
-    private Map<String, Object> vars;
     JavascriptExecutor js;
     
     @BeforeMethod
@@ -28,7 +22,6 @@ public class CheckOut {
         //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
-        vars = new HashMap<String, Object>();
     }
     
     @AfterMethod
@@ -38,7 +31,7 @@ public class CheckOut {
     
     @Test
     public void CheckOutCart() throws InterruptedException {
-    	AddToCart.AddToCart(driver);
+    	AddToCart.RunAddToCart(driver);
     	driver.get("https://www.ticketor.com/demo/members/checkout");
     	Thread.sleep(1000);
     	WebElement deliveyMethod = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div/div[2]/table/tbody/tr[1]/td/span/label/div/span[1]"));

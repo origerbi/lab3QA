@@ -1,7 +1,6 @@
 package tar1;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -15,17 +14,16 @@ import org.testng.annotations.Test;
 
 public class AddItemToCart {
     private WebDriver driver;
-    private Map<String, Object> vars;
     JavascriptExecutor js;
     
     @BeforeMethod
-	public void setUp() {
+	public void setUp() throws IOException {
         System.setProperty("webdriver.chrome.driver","C:\\Program Files\\chromedriver\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
-        vars = new HashMap<String, Object>();
+        ExcelReader.readExcel("", "data.xls", "Sheet1");
     }
     @AfterMethod
 	public void tearDown() {
@@ -34,13 +32,13 @@ public class AddItemToCart {
     
     @Test
     public void AddToCartTest() throws InterruptedException {
-    	AddItemToCart(driver);
+    	addItemToCart(driver);
         // TODO: add to log - fail or succeed
     }
     
-    public static void AddItemToCart(WebDriver driver) throws InterruptedException {
+    public static void addItemToCart(WebDriver driver) throws InterruptedException {
     	driver.get("https://www.ticketor.com/demo/store");
-    	login.login(driver,"origerbi@gmail.com","9012761");
+    	Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue());
         driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[7]/div[2]/div[2]/div/div[2]/div[3]/div/a")).click();
         driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[3]/div[3]/div[5]/div[3]/div[2]/a/div/p[1]")).click();
         Thread.sleep(1000);

@@ -1,8 +1,5 @@
 package tar1;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +12,6 @@ import org.testng.annotations.Test;
 
 public class WriteReview {
     private WebDriver driver;
-    private Map<String, Object> vars;
     JavascriptExecutor js;
     
     @BeforeMethod
@@ -25,7 +21,6 @@ public class WriteReview {
         //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
-        vars = new HashMap<String, Object>();
     }
     @AfterMethod
 	public void tearDown() {
@@ -34,8 +29,8 @@ public class WriteReview {
     
     @Test
     public void writeReviewTest() throws InterruptedException {
-    	login.login(driver,"origerbi@gmail.com","o9012761");
-    	String stars[] = {"2","5","3"};
+        Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue());
+        String stars[] = {"2","5","3"};
     	writeReview(driver, stars);
     	Thread.sleep(5000);
     }
