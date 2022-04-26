@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class AddItemToCart {
@@ -32,19 +33,28 @@ public class AddItemToCart {
     
     @Test
     public void AddToCartTest() throws InterruptedException {
-    	addItemToCart(driver);
+    	addItemToCart(driver,2,1,1);
+    	Thread.sleep(5000);
         // TODO: add to log - fail or succeed
     }
     
-    public static void addItemToCart(WebDriver driver) throws InterruptedException {
-    	driver.get("https://www.ticketor.com/demo/store");
+    /*
+     * quantity
+     * color = 0 - black
+     * color = 1 - blue  +1.50$
+     * size = 0 - small -1.00$
+     * size = 1 - medium
+     * size = 2 - large
+     */
+    public static void addItemToCart(WebDriver driver,int quantity, int color, int size) throws InterruptedException {
     	Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue());
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[7]/div[2]/div[2]/div/div[2]/div[3]/div/a")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[3]/div[3]/div[5]/div[3]/div[2]/a/div/p[1]")).click();
-        Thread.sleep(1000);
-        WebElement ticketCount = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[4]/form/div[4]/div[2]/table/tbody/tr[2]/td[2]/label/select"));
-        ticketCount.findElement(By.xpath("//option[2]")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[4]/form/div[4]/div[2]/div/button")).click();
+    	driver.get("https://www.ticketor.com/demo/shop/t-shirt-10520");
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[1]/input")).sendKeys(String.valueOf(quantity));
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/select")).findElement(By.xpath("//option[" + color + "]")).click();
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[2]/select")).findElement(By.xpath("//option[" + color + "]")).click();
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[4]/button")).click();
+        
+    	
     }
 
 }

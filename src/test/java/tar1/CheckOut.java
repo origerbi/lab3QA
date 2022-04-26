@@ -32,6 +32,7 @@ public class CheckOut {
     @Test
     public void CheckOutCart() throws InterruptedException {
     	AddToCart.RunAddToCart(driver);
+    	AddItemToCart.addItemToCart(driver,2,1,1);
     	driver.get("https://www.ticketor.com/demo/members/checkout");
     	Thread.sleep(1000);
     	WebElement deliveyMethod = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div/div[2]/table/tbody/tr[1]/td/span/label/div/span[1]"));
