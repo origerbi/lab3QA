@@ -11,10 +11,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
 public class AddItemToCart {
     private WebDriver driver;
     JavascriptExecutor js;
+    Logger logger;
     
     @BeforeMethod
 	public void setUp() throws IOException {
@@ -24,6 +26,7 @@ public class AddItemToCart {
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         ExcelReader.readExcel("", "data.xls", "Sheet1");
+        logger = Logger.getLogger(AddItemToCart.class);
     }
     @AfterMethod
 	public void tearDown() {
@@ -32,13 +35,13 @@ public class AddItemToCart {
     
     @Test
     public void AddToCartTest() throws InterruptedException {
-    	addItemToCart(driver);
-        // TODO: add to log - fail or succeed
+    	addItemToCart(driver, logger);
     }
     
-    public static void addItemToCart(WebDriver driver) throws InterruptedException {
-    	driver.get("https://www.ticketor.com/demo/store");
-    	Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue());
+    public static void addItemToCart(WebDriver driver, Logger logger) throws InterruptedException {
+    	Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(),logger);
+        driver.get("https://www.ticketor.com/demo/store");
+        logger.info("Navigated to store page");
         driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[7]/div[2]/div[2]/div/div[2]/div[3]/div/a")).click();
         driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[3]/div[3]/div[5]/div[3]/div[2]/a/div/p[1]")).click();
         Thread.sleep(1000);

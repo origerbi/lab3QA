@@ -13,10 +13,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
 public class FilterTickets {
     private WebDriver driver;
     JavascriptExecutor js;
+    Logger logger;
     
     @BeforeMethod
 	public void setUp() throws IOException {
@@ -26,6 +28,7 @@ public class FilterTickets {
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         ExcelReader.readExcel("", "data.xls", "Sheet1");
+        logger = Logger.getLogger(FilterTickets.class);
     }
     @AfterMethod
 	public void tearDown() {
@@ -35,15 +38,18 @@ public class FilterTickets {
     @Test
     public void filterTickets() throws InterruptedException {
         driver.get("https://www.ticketor.com/demo/tickets");
-        driver.findElement(By.id("search")).sendKeys(ExcelReader.getsheet().getRow(1).getCell(2).getStringCellValue());			//TODO: Change to variable from file
+        logger.info("Navigated to tickets page");
+        driver.findElement(By.id("search")).sendKeys(ExcelReader.getsheet().getRow(1).getCell(2).getStringCellValue());
         Thread.sleep(500);
+        logger.info("Filter applied");
         WebElement allShows = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[7]/div[2]"));
         List<WebElement> tickets = allShows.findElements(By.className("upcomingEvent"));
+        logger.info("Testing the filter");
         for (WebElement webElement : tickets) {
 			if( webElement.isDisplayed())
-				Assert.assertTrue(webElement.getText().contains(ExcelReader.getsheet().getRow(1).getCell(2).toString()));	//TODO: Change to variable
+				Assert.assertTrue(webElement.getText().contains(ExcelReader.getsheet().getRow(1).getCell(2).toString()));
 		}
-        // TODO: add to log - fail or succeed
+        logger.info("Tickets filtered correctly");
     }
 
 }

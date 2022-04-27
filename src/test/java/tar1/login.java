@@ -12,10 +12,12 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
 public class Login {
     private WebDriver driver;
     JavascriptExecutor js;
+    Logger logger;
     
     @BeforeMethod
 	public void setUp() throws IOException {
@@ -25,6 +27,7 @@ public class Login {
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         ExcelReader.readExcel("", "data.xls", "Sheet1");
+        logger =  Logger.getLogger(Login.class);
     }
     @AfterMethod
 	public void tearDown() {
@@ -33,7 +36,7 @@ public class Login {
     
     @Test
     public void loginTest() throws InterruptedException {
-        Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue());
+        Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
         String loginElement = driver.findElement(By.xpath("/html/body/div[1]/div/header/nav/ul/li[3]/a")).getText();
         loginElement = loginElement.trim();
         Assert.assertNotEquals("Sign In / Sign Up",loginElement);
@@ -41,18 +44,20 @@ public class Login {
     
     @Test
     public void failedLoginPassword() throws InterruptedException {
-        Login.login(driver,ExcelReader.getsheet().getRow(3).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(4).getCell(0).getStringCellValue());
+        Login.login(driver,ExcelReader.getsheet().getRow(3).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(4).getCell(0).getStringCellValue(),logger);
 		String loginElement = driver.findElement(By.xpath("/html/body/div[7]/div[2]/form/div[17]/p")).getText();
 		AssertJUnit.assertEquals("Invalid password!", loginElement);
     }
     
     
-    public static void login(WebDriver driver, String email, String password) throws InterruptedException {
+    public static void login(WebDriver driver, String email, String password, Logger logger) throws InterruptedException {
         driver.get("https://www.ticketor.com/demo/default");
+        logger.info("Navigated to Ticketor main page");
     	driver.findElement(By.xpath("/html/body/div[1]/div/header/nav/ul/li[3]/a")).click();
         driver.findElement(By.xpath("/html/body/div[7]/div[2]/form/div[4]/input")).sendKeys(email);
         driver.findElement(By.xpath("/html/body/div[7]/div[2]/form/div[16]/div[1]/input")).sendKeys(password);
         driver.findElement(By.xpath("/html/body/div[7]/div[2]/form/div[18]/button")).click();
+        logger.info("login preformed");
         Thread.sleep(500);
     }
 }

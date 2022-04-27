@@ -9,11 +9,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
 
 public class CheckOut {
     private WebDriver driver;
     JavascriptExecutor js;
+	Logger logger;
     
     @BeforeMethod
 	public void setUp() {
@@ -22,6 +24,7 @@ public class CheckOut {
         //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
+		logger = Logger.getLogger(CheckOut.class);
     }
     
     @AfterMethod
@@ -31,7 +34,7 @@ public class CheckOut {
     
     @Test
     public void CheckOutCart() throws InterruptedException {
-    	AddToCart.RunAddToCart(driver);
+    	AddToCart.RunAddToCart(driver, logger);
     	driver.get("https://www.ticketor.com/demo/members/checkout");
     	Thread.sleep(1000);
     	WebElement deliveyMethod = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div/div[2]/table/tbody/tr[1]/td/span/label/div/span[1]"));
