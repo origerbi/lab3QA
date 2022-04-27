@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.log4testng.Logger;
 
@@ -20,9 +21,9 @@ public class AddItemToCart {
     
     @BeforeMethod
 	public void setUp() throws IOException {
-        System.setProperty("webdriver.chrome.driver","C:\\Program Files\\chromedriver\\chromedriver.exe");
+    	System.setProperty("webdriver.chrome.driver","chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         ExcelReader.readExcel("", "data.xls", "Sheet1");
@@ -35,19 +36,24 @@ public class AddItemToCart {
     
     @Test
     public void AddToCartTest() throws InterruptedException {
-    	addItemToCart(driver, logger);
+    	addItemToCart(driver,2,1,1,logger);
     }
-    
-    public static void addItemToCart(WebDriver driver, Logger logger) throws InterruptedException {
-    	Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(),logger);
-        driver.get("https://www.ticketor.com/demo/store");
-        logger.info("Navigated to store page");
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[7]/div[2]/div[2]/div/div[2]/div[3]/div/a")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[3]/div[3]/div[5]/div[3]/div[2]/a/div/p[1]")).click();
-        Thread.sleep(1000);
-        WebElement ticketCount = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[4]/form/div[4]/div[2]/table/tbody/tr[2]/td[2]/label/select"));
-        ticketCount.findElement(By.xpath("//option[2]")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[4]/form/div[4]/div[2]/div/button")).click();
+	/*
+     * quantity
+     * color = 0 - black
+     * color = 1 - blue  +1.50$
+     * size = 0 - small -1.00$
+     * size = 1 - medium
+     * size = 2 - large
+     */
+    public static void addItemToCart(WebDriver driver,int quantity, int color, int size, Logger logger) throws InterruptedException {
+		Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(),logger);
+        driver.get("https://www.ticketor.com/demo/shop/t-shirt-10520");
+        logger.info("Navigated to shop item page");
+           	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[1]/input")).sendKeys(String.valueOf(quantity));
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/select")).findElement(By.xpath("//option[" + color + "]")).click();
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[2]/select")).findElement(By.xpath("//option[" + color + "]")).click();
+    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[4]/button")).click();   
     }
 
 }

@@ -19,9 +19,9 @@ public class CheckOut {
     
     @BeforeMethod
 	public void setUp() {
-        System.setProperty("webdriver.chrome.driver","C:\\Program Files\\chromedriver\\chromedriver.exe");
+    	System.setProperty("webdriver.chrome.driver","chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
 		logger = Logger.getLogger(CheckOut.class);
@@ -35,6 +35,7 @@ public class CheckOut {
     @Test
     public void CheckOutCart() throws InterruptedException {
     	AddToCart.RunAddToCart(driver, logger);
+    	AddItemToCart.addItemToCart(driver,2,1,1);
     	driver.get("https://www.ticketor.com/demo/members/checkout");
     	Thread.sleep(1000);
     	WebElement deliveyMethod = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div/div[2]/table/tbody/tr[1]/td/span/label/div/span[1]"));
