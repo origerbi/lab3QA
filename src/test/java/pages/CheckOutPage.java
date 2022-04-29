@@ -1,4 +1,4 @@
-package Pages;
+package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,8 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 
-import tar1.AddItemToCart;
-import tar1.AddToCart;
+import testCases.AddItemToCart;
+import testCases.AddToCart_TC;
 
 import org.apache.logging.log4j.*;
 
@@ -21,8 +21,6 @@ public class CheckOutPage {
 	}
 	
 	public boolean CheckOutCart(Logger logger) throws InterruptedException {
-    	AddToCart.RunAddToCart(driver, logger);
-    	AddItemToCart.addItemToCart(driver,2,1,1,logger);
     	driver.get("https://www.ticketor.com/demo/members/checkout");
     	Thread.sleep(1000);
     	WebElement deliveyMethod = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div/div[2]/table/tbody/tr[1]/td/span/label/div/span[1]"));
@@ -31,7 +29,7 @@ public class CheckOutPage {
     	nameOnCard.click();
     	nameOnCard.sendKeys("Ori Gerbi");
         driver.switchTo().frame(0);
-        WebElement cardNum = driver.findElement(By.xpath("/html/body/div/form/div/div[2]/span[1]/span[2]/div/div[2]/span/input"));//You can use xpath, ID or name whatever you like
+        WebElement cardNum = driver.findElement(By.xpath("/html/body/div/form/div/div[2]/span[1]/span[2]/div/div[2]/span/input"));
         cardNum.sendKeys("4111111111111111");
         
     	WebElement exp = driver.findElement(By.xpath("/html/body/div/form/div/div[2]/span[2]/span/span/input"));
@@ -47,7 +45,7 @@ public class CheckOutPage {
     	zipCode.sendKeys("12345");
     	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div/div[9]")).click();
     	driver.findElement(By.id("ctl00_CPMain_Buy")).click();
-    	Thread.sleep(3500);
+    	Thread.sleep(7000);
     	driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/button")).click();
     	Thread.sleep(3000);
     	WebElement confirmed = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[1]/div[2]/p[3]/span"));

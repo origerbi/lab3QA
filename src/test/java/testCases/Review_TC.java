@@ -1,4 +1,4 @@
-package tar1;
+package testCases;
 
 import java.io.IOException;
 
@@ -12,8 +12,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import Pages.MyReviewsPage;
-import Pages.ReviewsPage;
+import pages.LoginPage;
+import pages.MyReviewsPage;
+import pages.ReviewsPage;
 
 import org.apache.logging.log4j.*;
 
@@ -39,7 +40,8 @@ public class Review_TC {
     
     @Test
     public void writeReviewTest() throws InterruptedException {
-        Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
+    	LoginPage login = new LoginPage(driver);
+        login.login(ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
         int star = 2;
 		String text = "The prices are way too high... I found another website much cheaper";
 		MyReviewsPage myReview = new MyReviewsPage(driver);

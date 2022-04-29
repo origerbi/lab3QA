@@ -1,4 +1,4 @@
-package tar1;
+package testCases;
 
 import java.io.File;
 import java.io.FileInputStream;
