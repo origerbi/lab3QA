@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.log4testng.Logger;
+import org.apache.logging.log4j.*;
 
 public class WriteReview {
     private WebDriver driver;
@@ -22,8 +22,8 @@ public class WriteReview {
 	public void setUp() throws IOException {
     	System.setProperty("webdriver.chrome.driver","chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        logger = Logger.getLogger(WriteReview.class);
-        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+        logger = LogManager.getLogger();
+        //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         ExcelReader.readExcel("", "data.xls", "Sheet1");
