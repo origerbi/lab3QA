@@ -11,9 +11,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import Pages.myReviewsPage;
+import Pages.reviewsPage;
+
 import org.apache.logging.log4j.*;
 
-public class WriteReview {
+public class Review_TC {
     private WebDriver driver;
     JavascriptExecutor js;
     Logger logger;
@@ -38,25 +42,10 @@ public class WriteReview {
         Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
         int star = 2;
 		String text = "The prices are way too high... I found another website much cheaper";
-    	writeReview(driver, star, text, logger);
-    	Thread.sleep(3000);
-    }
-    
-    
-    public static void writeReview(WebDriver driver, int star, String text, Logger logger) throws InterruptedException {
-        driver.get("https://www.ticketor.com/demo/myreviews");
-        logger.info("Moving to my reviews page");
-		if (star < 1 || star > 5)
-			logger.warn("star out of bounds");
-		star = 6-star;
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[1]/div/div/div[1]/label[" + star + "]")).click();
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[1]/div/div/div[3]/textarea")).sendKeys(text);
-        driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[1]/div")).click(); // click to save review
-		Thread.sleep(1500);
-        driver.get("https://www.ticketor.com/demo/reviews");
-        driver.findElement(By.id("ui-id-3")).click();
-        Thread.sleep(1500);
-        String gotText = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[2]/div[2]/div[2]/div[1]")).getText();
+		myReviewsPage myReview = new myReviewsPage(driver);
+		myReview.writeReview(star, text, logger);
+		reviewsPage review = new reviewsPage(driver);
+		String gotText = review.checkReview(text, logger);
         Assert.assertTrue(gotText.contains(text));
         logger.info("Reviews written successfully");
     }
