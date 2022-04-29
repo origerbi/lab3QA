@@ -34,7 +34,6 @@ public class Login_TC {
     @AfterMethod
 	public void tearDown() {
         driver.quit();
-        LogManager.shutdown();
     }
     
     @Test
@@ -42,5 +41,6 @@ public class Login_TC {
         LoginPage loginPage = new LoginPage(driver);
         String result = loginPage.login(ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(), ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
         Assert.assertNotEquals("Sign In / Sign Up",result);
+        logger.info("login sucssefull");
     }
 }

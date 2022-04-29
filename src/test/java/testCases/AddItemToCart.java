@@ -40,7 +40,13 @@ public class AddItemToCart {
     	LoginPage login = new LoginPage(driver);
     	login.login(ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
     	StorePage store = new StorePage(driver);
-    	store.addItemToCart((int)ExcelReader.getsheet().getRow(1).getCell(3).getNumericCellValue(),(int)ExcelReader.getsheet().getRow(2).getCell(3).getNumericCellValue(),(int)ExcelReader.getsheet().getRow(3).getCell(3).getNumericCellValue(),logger);	// Read from file
+    	try {
+    		store.addItemToCart((int)ExcelReader.getsheet().getRow(1).getCell(3).getNumericCellValue(),(int)ExcelReader.getsheet().getRow(2).getCell(3).getNumericCellValue(),(int)ExcelReader.getsheet().getRow(3).getCell(3).getNumericCellValue(),logger);			
+		} catch (Exception e) {
+			logger.fatal("test failed. could not add item to cart");
+			throw e;
+		}
+    	
     }
 	
 

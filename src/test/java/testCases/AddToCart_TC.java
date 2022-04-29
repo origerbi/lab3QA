@@ -25,7 +25,7 @@ public class AddToCart_TC {
 	public void setUp() throws IOException {
         System.setProperty("webdriver.chrome.driver","chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         logger = LogManager.getLogger();
@@ -45,7 +45,8 @@ public class AddToCart_TC {
     		addToCart.RunAddToCart(logger);				
     		logger.info("Tickets added to cart");
 		} catch (Exception e) {
-			// TODO: Amit -> handle exception and logger
+			logger.fatal("test failed, could not add tickets to cart");
+			throw e;
 		}
     }
     
