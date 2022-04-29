@@ -1,9 +1,12 @@
 package testCases;
 
-import org.openqa.selenium.By;
+import java.io.IOException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
@@ -14,11 +17,6 @@ import pages.CheckOutPage;
 import pages.LoginPage;
 import pages.StorePage;
 import pages.TicketsPage;
-
-import java.io.IOException;
-
-import org.apache.logging.log4j.*;
-import org.junit.Assert;
 
 
 public class CheckOut_TC {
