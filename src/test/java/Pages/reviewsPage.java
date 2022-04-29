@@ -1,17 +1,12 @@
 package Pages;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.Assert;
-import org.testng.AssertJUnit;
-import org.apache.logging.log4j.*;
 
-public class reviewsPage {
+public class ReviewsPage {
 	private WebDriver driver;
 	
-	public reviewsPage(WebDriver driver) {
+	public ReviewsPage(WebDriver driver) {
 		this.driver = driver;
 	}
 	

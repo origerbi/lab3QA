@@ -12,8 +12,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import Pages.myReviewsPage;
-import Pages.reviewsPage;
+import Pages.MyReviewsPage;
+import Pages.ReviewsPage;
 
 import org.apache.logging.log4j.*;
 
@@ -42,9 +42,9 @@ public class Review_TC {
         Login.login(driver,ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
         int star = 2;
 		String text = "The prices are way too high... I found another website much cheaper";
-		myReviewsPage myReview = new myReviewsPage(driver);
+		MyReviewsPage myReview = new MyReviewsPage(driver);
 		myReview.writeReview(star, text, logger);
-		reviewsPage review = new reviewsPage(driver);
+		ReviewsPage review = new ReviewsPage(driver);
 		String gotText = review.checkReview(text, logger);
         Assert.assertTrue(gotText.contains(text));
         logger.info("Reviews written successfully");
