@@ -3,8 +3,8 @@ package testCases;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,9 +13,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.log4testng.Logger;
+import org.apache.logging.log4j.Logger;
 
-public class FilterTickets {
+import pages.TicketsPage;
+
+public class FilterTickets_TC {
     private WebDriver driver;
     JavascriptExecutor js;
     Logger logger;
@@ -28,7 +30,7 @@ public class FilterTickets {
         driver = new ChromeDriver(options);
         js = (JavascriptExecutor) driver;
         ExcelReader.readExcel("", "data.xls", "Sheet1");
-        logger = Logger.getLogger(FilterTickets.class);
+        logger = LogManager.getLogger();
     }
     @AfterMethod
 	public void tearDown() {
@@ -37,16 +39,11 @@ public class FilterTickets {
     
     @Test
     public void filterTickets() throws InterruptedException {
-        driver.get("https://www.ticketor.com/demo/tickets");
-        logger.info("Navigated to tickets page");
-        driver.findElement(By.id("search")).sendKeys(ExcelReader.getsheet().getRow(1).getCell(2).getStringCellValue());
-        Thread.sleep(500);
-        logger.info("Filter applied");
-        WebElement allShows = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div/div[2]/div[7]/div[2]"));
-        List<WebElement> tickets = allShows.findElements(By.className("upcomingEvent"));
+    	TicketsPage filter = new TicketsPage(driver);
+    	List<WebElement> events = filter.filterTickets(logger);
         logger.info("Testing the filter");
-        for (WebElement webElement : tickets) {
-			if( webElement.isDisplayed())
+        for (WebElement webElement : events) {
+			if(webElement.isDisplayed())
 				Assert.assertTrue(webElement.getText().contains(ExcelReader.getsheet().getRow(1).getCell(2).toString()));
 		}
         logger.info("Tickets filtered correctly");
