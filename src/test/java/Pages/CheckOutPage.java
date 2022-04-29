@@ -1,39 +1,26 @@
-package tar1;
-
+package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
+
+import tar1.AddItemToCart;
+import tar1.AddToCart;
+
 import org.apache.logging.log4j.*;
 
+public class CheckOutPage {
+	private WebDriver driver;
 
-public class CheckOut {
-    private WebDriver driver;
-    JavascriptExecutor js;
-	Logger logger;
-    
-    @BeforeMethod
-	public void setUp() {
-    	System.setProperty("webdriver.chrome.driver","chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-        js = (JavascriptExecutor) driver;
-        logger = LogManager.getLogger();
-    }
-    
-    @AfterMethod
-	public void tearDown() {
-        driver.quit();
-    }
-    
-    @Test
-    public void CheckOutCart() throws InterruptedException {
+	public CheckOutPage(WebDriver driver) {
+		this.driver = driver;
+	}
+	
+	public boolean CheckOutCart(Logger logger) throws InterruptedException {
     	AddToCart.RunAddToCart(driver, logger);
     	AddItemToCart.addItemToCart(driver,2,1,1,logger);
     	driver.get("https://www.ticketor.com/demo/members/checkout");
@@ -64,11 +51,7 @@ public class CheckOut {
     	driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/button")).click();
     	Thread.sleep(3000);
     	WebElement confirmed = driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[1]/div[2]/p[3]/span"));
-    	if (confirmed.getText().contains("Your purchase completed successfully"))
-    		System.out.println("Print to log: Succseed");
-    	else
-    		System.out.println("Print to log: failed");
-    	
-        // TODO: add to log - fail or succeed
+    	return confirmed.getText().contains("Your purchase completed successfully");
     }
 }
+
