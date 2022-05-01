@@ -14,7 +14,8 @@ public class StorePage {
 	}
 	
 	@FindBy(xpath = "/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[1]/input") WebElement quantitySelector;
-	@FindBy(xpath = "/html/body/div[1]/div/form/div[3]/div/div[2]/div[2]/div[2]/div[2]/div[1]") WebElement myReview;
+	@FindBy(xpath = "/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/select") WebElement colorSelector;
+	@FindBy(xpath = "/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[2]/select") WebElement sizeSelector;
 	@FindBy(xpath = "/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[4]/button") WebElement buyButton;
 	
 	/*
@@ -29,8 +30,8 @@ public class StorePage {
         driver.get("https://www.ticketor.com/demo/shop/t-shirt-10520");
         logger.info("Navigated to shop item page");
         quantitySelector.sendKeys(String.valueOf(quantity));
-    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/select")).findElement(By.xpath("//option[" + color + "]")).click();
-    	driver.findElement(By.xpath("/html/body/div[1]/div/form/div[3]/div[2]/div[2]/div[2]/div[2]/div[2]/select")).findElement(By.xpath("//option[" + size + "]")).click();
+        colorSelector.findElement(By.xpath("//option[" + color + "]")).click();
+        sizeSelector.findElement(By.xpath("//option[" + size + "]")).click();
     	buyButton.click();   
     }
 
