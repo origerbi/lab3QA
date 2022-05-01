@@ -1,6 +1,5 @@
 package pages;
-import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,7 +34,7 @@ public class CheckOutPage {
 		return numberString;
 	}
 	
-	public boolean CheckOutCart(Logger logger) throws InterruptedException {
+	public boolean CheckOutCart() throws InterruptedException {
     	driver.get("https://www.ticketor.com/demo/members/checkout");
     	Thread.sleep(1000);
     	deliveyMethod.click();

@@ -1,10 +1,11 @@
 package pages;
 
-import org.apache.logging.log4j.Logger;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Reporter;
 
 public class StorePage {
 	private WebDriver driver;
@@ -26,9 +27,9 @@ public class StorePage {
      * size = 1 - medium
      * size = 2 - large
      */
-    public void addItemToCart(int quantity, int color, int size, Logger logger) throws InterruptedException {
+    public void addItemToCart(int quantity, int color, int size) throws InterruptedException {
         driver.get("https://www.ticketor.com/demo/shop/t-shirt-10520");
-        logger.info("Navigated to shop item page");
+        Reporter.log("Navigated to shop item page");
         quantitySelector.clear();
         quantitySelector.sendKeys(String.valueOf(quantity));
         colorSelector.findElement(By.xpath("//option[" + color + "]")).click();

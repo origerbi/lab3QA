@@ -1,11 +1,9 @@
 package testCases;
 
 import java.io.IOException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -16,7 +14,6 @@ import pages.TicketsPage;
 
 public class AddToCart_TC {
     private WebDriver driver;
-    Logger logger = LogManager.getLogger();
     
     @BeforeMethod
 	public void setUp() throws IOException {
@@ -30,13 +27,13 @@ public class AddToCart_TC {
     @Test
     public void AddToCartTest() throws InterruptedException {
     	LoginPage login = PageFactory.initElements(driver,LoginPage.class);
-    	login.login(ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(),logger);
+    	login.login(ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue());
     	try {
     		TicketsPage addToCart = PageFactory.initElements(driver,TicketsPage.class);
-    		addToCart.RunAddToCart(logger);				
-    		logger.info("Tickets added to cart");
+    		addToCart.RunAddToCart();				
+    		Reporter.log("Tickets added to cart");
 		} catch (Exception e) {
-			logger.fatal("test failed, could not add tickets to cart");
+			Reporter.log("test failed, could not add tickets to cart");
 			throw e;
 		}
     }
