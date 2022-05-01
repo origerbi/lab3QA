@@ -4,11 +4,8 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,19 +17,11 @@ import pages.TicketsPage;
 
 public class CheckOut_TC {
 	private WebDriver driver;
-	JavascriptExecutor js;
-	Logger logger;
+	Logger logger = LogManager.getLogger();
 
 	@BeforeMethod
 	public void setUp() throws IOException {
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless", "--disable-gpu",
-		"--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
-		driver = new ChromeDriver(options);
-		js = (JavascriptExecutor) driver;
-		logger = LogManager.getLogger();
-		ExcelReader.readExcel("", "data.xls", "Sheet1");
+		driver = TestUtils.setUp();
 	}
 
 	@AfterMethod
@@ -42,14 +31,12 @@ public class CheckOut_TC {
 
 	@Test
 	public void CheckOutCart() throws InterruptedException {
-		LoginPage login = new LoginPage(driver);
+		LoginPage login = PageFactory.initElements(driver,LoginPage.class);
 		login.login(ExcelReader.getsheet().getRow(1).getCell(0).getStringCellValue(),
 				ExcelReader.getsheet().getRow(2).getCell(0).getStringCellValue(), logger);
-		TicketsPage addToCart = new TicketsPage(driver);
+		TicketsPage addToCart = PageFactory.initElements(driver,TicketsPage.class);
 		addToCart.RunAddToCart(logger);
-		StorePage addItemToCart = new StorePage(driver);
-		addItemToCart.addItemToCart(2, 1, 1, logger);
-		CheckOutPage checkout = new CheckOutPage(driver);
+		CheckOutPage checkout = PageFactory.initElements(driver,CheckOutPage.class);
 		if (checkout.CheckOutCart(logger))
 			logger.info("checkout sucssefully");
 		else

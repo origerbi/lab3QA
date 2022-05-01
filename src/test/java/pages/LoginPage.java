@@ -26,7 +26,7 @@ public class LoginPage {
         passwordField.sendKeys(password);
         signInLogin.click();
         logger.info("login preformed");
-        Thread.sleep(500);
+        Thread.sleep(1000);
         return signInConfirmation.getText().trim();
     }
 }

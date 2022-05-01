@@ -29,6 +29,7 @@ public class StorePage {
     public void addItemToCart(int quantity, int color, int size, Logger logger) throws InterruptedException {
         driver.get("https://www.ticketor.com/demo/shop/t-shirt-10520");
         logger.info("Navigated to shop item page");
+        quantitySelector.clear();
         quantitySelector.sendKeys(String.valueOf(quantity));
         colorSelector.findElement(By.xpath("//option[" + color + "]")).click();
         sizeSelector.findElement(By.xpath("//option[" + size + "]")).click();

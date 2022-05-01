@@ -10,27 +10,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.apache.logging.log4j.Logger;
 
+import pages.LoginPage;
 import pages.TicketsPage;
 
 public class FilterTickets_TC {
     private WebDriver driver;
     JavascriptExecutor js;
-    Logger logger;
+    Logger logger = LogManager.getLogger();
     
     @BeforeMethod
 	public void setUp() throws IOException {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-        js = (JavascriptExecutor) driver;
-        ExcelReader.readExcel("", "data.xls", "Sheet1");
-        logger = LogManager.getLogger();
+    	driver = TestUtils.setUp();
     }
     @AfterMethod
 	public void tearDown() {
@@ -39,7 +35,7 @@ public class FilterTickets_TC {
     
     @Test
     public void filterTickets() throws InterruptedException {
-    	TicketsPage filter = new TicketsPage(driver);
+    	TicketsPage filter = PageFactory.initElements(driver,TicketsPage.class);
     	List<WebElement> events = filter.filterTickets(logger);
         logger.info("Testing the filter");
         for (WebElement webElement : events) {
